@@ -1,23 +1,22 @@
 import streamlit as st
-from main import ResearchCrew  # Import the ResearchCrew class from main.py
+from main import ContentStrategyCrew
 import os
 
-st.title('LOCAL RESTAURANT FINDER')
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
 
 with st.sidebar:
-    st.header('Enter Research Details')
-    topic = st.text_input("Main topic of your research:")
-    detailed_questions = st.text_area("Specific questions or subtopics you are interested in exploring:")
-    key_points = st.text_area("Key points or specific information needed:")
+    st.header('Enter Content Strategy Details')
+    topic = st.text_input("Main topic or theme for content strategy:")
+    target_segments = st.text_area("Specific audience segments you are targeting:")
+    content_focus = st.text_area("Any particular themes or messages to emphasize:")
 
-if st.button('Run Research'):
-    if not topic or not detailed_questions or not key_points:
+if st.button('Get result'):
+    if not topic or not target_segments or not content_focus:
         st.error("Please fill all the fields.")
     else:
-        inputs = f"Research Topic: {topic}\nDetailed Questions: {detailed_questions}\nKey Points: {key_points}"
-        research_crew = ResearchCrew(inputs)
-        result = research_crew.run()
-        st.subheader("Results of your research project:")
+        inputs = f"Content Topic: {topic}\nTarget Segments: {target_segments}\nContent Focus: {content_focus}"
+        content_strategy_crew = ContentStrategyCrew(inputs)
+        result = content_strategy_crew.run()
+        st.subheader("Results of your content strategy project:")
         st.write(result)

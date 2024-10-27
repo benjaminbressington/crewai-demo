@@ -1,106 +1,82 @@
 from crewai import Task
 
-from crewai import Task
+class ContentCrewTasks:
 
-class ResearchCrewTasks:
+    def brainstorming_task(self, agent, inputs):
+        return Task(
+            agent=agent,
+            description=f"Generate a list of fresh content ideas relevant to the target audience. Focus on trends, customer pain points, and recent industry updates for {inputs}.",
+            expected_output=f"""
+    Content Ideas for {inputs}
+    1. **Idea Overview**: A list of initial content ideas generated based on audience needs and current market trends.
+    2. **Trend Analysis**: Brief analysis of how each idea aligns with current industry or consumer trends.
+    3. **Target Audience**: Identify which customer segments the content ideas would most appeal to (e.g., Wary Taxpayer, Urgency Seeker).
+    4. **Potential Themes**: Highlight any recurring themes or unique angles that could be explored in each content idea.
+    5. **Next Steps**: Recommendations on which ideas to develop further based on their relevance and potential impact.
+            """
+        )
 
-    def research_task(self, agent, inputs):
-      return Task(
-          agent=agent,
-          description=f"Systematically gather and document current and relevant news and articles from diverse sources about {inputs}. Use all available digital tools to ensure comprehensive coverage.",
-          expected_output=f"""
-  Detailed Research Report on {inputs}
-  1. **Executive Summary**: A concise overview of the research findings, highlighting the most critical insights and conclusions drawn from the gathered data.
-  2. **Introduction**: Background information on why the research on {inputs} is crucial at this point in time. Include the scope of the research and the main objectives.
-  3. **Methodology**:
-    - **Sources Used**: List all sources utilized, including digital databases, news websites, and any subscriptions or specialized tools.
-    - **Search Criteria**: Describe the search criteria and keywords used to gather the relevant information.
-    - **Data Collection Process**: Outline the steps taken in the data collection process, including any automation tools or software used.
-  4. **Findings**:
-    - **Key Information Gathered**: Summarize the key information gathered from each source, categorized by relevance and impact on the topic.
-    - **Themes Identified**: Discuss any recurring themes or commonalities found across different sources.
-  5. **Analysis**:
-    - **Relevance to Current Trends**: Analyze how the findings relate to current trends or developments in the field.
-    - **Gaps in Information**: Highlight any noticeable gaps in information that could require further research.
-  6. **Conclusion**:
-    - **Summary of Findings**: Briefly reiterate the most critical findings and their implications.
-    - **Recommendations for Further Research**: Suggest areas where additional investigation could be beneficial based on gaps or emerging trends noted during the research.
-  7. **References**:
-    - **Full Citations**: Provide full citations for all sources used, formatted according to a recognized academic standard.
-          """
-      )
+    def critique_task(self, agent, context):
+        return Task(
+            agent=agent,
+            context=context,
+            description="Review and critique content ideas from the perspective of the assigned customer segment. Identify improvements to ensure alignment with audience needs and enhance trust, urgency, clarity, or affordability as appropriate.",
+            expected_output=f"""
+    Critique Report:
+    1. **Customer Segment Alignment**: Evaluate how well the content idea aligns with the needs of the customer segment (e.g., Skeptical Taxpayer, Budget-Conscious Saver).
+    2. **Content Improvements**:
+        - **Trust-Building**: Ensure content establishes credibility and addresses skepticism.
+        - **Urgency and Actionability**: Confirm the content motivates prompt action for urgency-driven segments.
+        - **Clarity and Simplicity**: Ensure content is straightforward for overwhelmed audiences.
+        - **Long-Term Value**: Verify content offers sustainable solutions for planners.
+        - **Cost-Effectiveness**: Highlight any budget-friendly approaches for budget-conscious audiences.
+    3. **Feedback Summary**: Summarize feedback with actionable recommendations for enhancing relevance and impact for the target audience.
+            """
+        )
 
-
-    def analysis_task(self, agent, context):
-      return Task(
-        agent=agent,
-        context=context,
-        description="Critically assess the accuracy, relevance, and depth of the information collected. Employ advanced data analysis methodologies to enhance the information's value, ensuring it meets the high standards required for expert assessment.",
-        expected_output=f"""
-  Comprehensive Analysis Report:
-  1. **Executive Summary**: An overview summarizing the key findings, including the accuracy, relevance, and depth of the analyzed information.
-  2. **Accuracy Assessment**:
-    - **Data Verification**: Evaluate the truthfulness and correctness of the data collected, identifying any discrepancies or inconsistencies.
-    - **Source Reliability**: Assess the reliability of the sources used, providing a credibility score for each.
-  3. **Relevance Analysis**:
-    - **Contextual Alignment**: Analyze how the information aligns with the current research questions and objectives.
-    - **Currentness**: Verify that the information is up-to-date and discuss its significance in the current context.
-  4. **Depth Evaluation**:
-    - **Comprehensiveness**: Evaluate the scope of the information and whether it covers all necessary aspects of the topic.
-    - **Insightfulness**: Assess the depth of insights provided by the information, including any underlying implications or hidden patterns.
-  5. **Methodological Review**:
-    - **Techniques Used**: Outline and critique the data analysis methodologies employed, suggesting improvements or alternatives if necessary.
-    - **Data Handling**: Discuss how the data was processed and analyzed, including any tools or software utilized.
-  6. **Recommendations**:
-    - **Further Research**: Suggest areas where additional information is needed and propose methods for gathering this data.
-    - **Practical Applications**: Provide recommendations on how the findings can be utilized practically by stakeholders or in further research.
-  7. **Conclusion**:
-    - **Summary of Key Points**: Concisely reiterate the most important findings and their implications for the research project.
-    - **Future Directions**: Suggest how the findings can inform future research and decision-making processes in the relevant field.
-  8. **Appendices**:
-    - **Data Tables and Figures**: Include comprehensive tables, charts, and graphs that were used in the analysis.
-    - **Source Documentation**: Provide detailed citations and references for all sources and data used in the report.
-          """
-    )
-
+    def strategy_task(self, agent, context):
+        return Task(
+            agent=agent,
+            context=context,
+            description="Develop a detailed content outline for each approved idea, focusing on creating unique hooks and messaging tailored to audience segments. Align content with business goals and audience preferences.",
+            expected_output=f"""
+    Content Outline:
+    1. **Introduction**:
+        - **Hook**: A compelling introduction designed to capture the interest of the target audience segment.
+        - **Objective**: Outline the main purpose and desired outcome of the content.
+    2. **Segment-Specific Messaging**:
+        - **Audience Insights**: Briefly describe the needs, emotions, and pain points of the segment.
+        - **Key Messages**: List tailored messages that address the specific concerns and motivations of the audience segment.
+    3. **Content Structure**:
+        - **Sections Overview**: Outline the structure and flow of the content, divided into clear, logical sections.
+        - **Supporting Details**: Identify key data, examples, and sources that will be included to enhance credibility.
+    4. **Call to Action**:
+        - **Specific Action**: Define a clear, persuasive call-to-action that encourages the audience to engage.
+        - **Segment Alignment**: Explain how the CTA aligns with the segment’s specific motivations or needs.
+            """
+        )
 
     def writing_task(self, agent, context):
         return Task(
             agent=agent,
             context=context,
-            description="Synthesize the information provided by the Researcher and enhanced by the Analyst into a compelling, clear, and well-structured summary. Include key findings and appropriately cite all sources to ensure credibility and traceability.",
+            description="Craft the final content piece based on the approved outline, ensuring that it is clear, compelling, and aligned with the customer segment's specific needs. The content should reflect the segment's tone and include actionable insights.",
             expected_output=f"""
-    Comprehensive Summary Report:
-    1. **Introduction**:
-      - **Background**: Provide a brief introduction to the topic, outlining the scope and purpose of the initial research.
-      - **Objectives**: Recap the main objectives of the research to set the context for the findings.
-
-    2. **Synthesis of Research and Analysis**:
-      - **Key Findings**: Present the key findings from the research phase, emphasizing significant data points, trends, and insights.
-      - **Analytical Enhancements**: Discuss how the analysis phase added value to the initial findings, including any new insights or understandings derived from deeper examination.
-
-    3. **Discussion**:
-      - **Implications**: Explore the implications of the findings in a broader context, discussing potential impacts on the field, industry, or society.
-      - **Critical Evaluation**: Critically evaluate the findings, noting strengths, weaknesses, and any contentious points that emerged during the research and analysis phases.
-
-    4. **Recommendations**:
-      - **Actionable Steps**: Provide clear, actionable recommendations based on the findings and discussions. These should be practical and tailored to specific stakeholders or policy implications.
-      - **Future Research**: Suggest areas for future research that could build on the current findings, addressing any gaps or unresolved questions.
-
-    5. **Conclusion**:
-      - **Summary of Findings**: Summarize the main points of the report, reinforcing the significance and reliability of the research conducted.
-      - **Final Thoughts**: Offer concluding thoughts that underscore the importance of the findings and the potential for future work in this area.
-
-    6. **References**:
-      - **Citations**: Include a detailed list of all sources cited in the document, formatted according to a recognized academic or professional standard.
-      - **Source Annotations**: Optionally, provide annotations for key sources, explaining their relevance and reliability.
-
-    7. **Appendices** (if applicable):
-      - **Supporting Documents**: Attach any supporting documents, data tables, or supplementary material referenced in the report.
-      - **Glossary of Terms**: Include a glossary of key terms and definitions used throughout the report for clarity.
+    Final Content Piece:
+    1. **Title and Subtitle**: Create an engaging title and subtitle that clearly convey the content’s purpose and appeal to the segment.
+    2. **Introduction**:
+        - **Hook**: Start with a strong opening that resonates with the target audience’s interests or pain points.
+        - **Purpose Statement**: Briefly explain the purpose of the content.
+    3. **Main Body**:
+        - **Content Sections**: Develop content according to the outline, with each section addressing a specific aspect of the topic.
+        - **Audience-Specific Language**: Use a tone and language style that speaks directly to the customer segment.
+        - **Credibility and Support**: Include data points, references, or anecdotes as needed to build trust and authority.
+    4. **Conclusion**:
+        - **Summary**: Recap the key takeaways and reinforce the main message.
+        - **Call to Action**: End with a strong call-to-action that aligns with the audience's motivations and encourages engagement.
+    5. **References**:
+        - **Citations**: List all sources cited in the content for credibility and traceability.
+    6. **Appendices (if applicable)**:
+        - **Additional Resources**: Provide links to related resources, FAQs, or other helpful materials.
             """
         )
-
-
-
-

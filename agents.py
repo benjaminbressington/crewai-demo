@@ -1,52 +1,156 @@
 from crewai import Agent
 from langchain_openai import ChatOpenAI
-from crewai_tools import SerperDevTool, WebsiteSearchTool,YoutubeChannelSearchTool, TXTSearchTool
+from crewai_tools import SerperDevTool, WebsiteSearchTool, TXTSearchTool
 
-
-
-
-class ResearchCrewAgents:
+class ContentCrewAgents:
 
     def __init__(self):
-        # Initialize tools if needed
         self.serper = SerperDevTool()
         self.web = WebsiteSearchTool()
         self.txt_tool = TXTSearchTool()
         self.gpt3 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
         self.gpt4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
 
-    def researcher(self):
-        # Detailed agent setup for the Researcher
+    def idea_generator(self):
+        # Agent setup for the Brainstorming Role
         return Agent(
-            role='Research Expert',
-            goal='Systematically scour sources to gather current news and articles on diverse topics.',
-            backstory="You are a paragon of meticulousness and analytical prowess, with a PhD in information science and over a decade of experience in high-stakes research roles, from academic institutions to top-tier consultancy firms. Known for your relentless pursuit of accuracy and depth, you have an uncanny ability to unearth gems of information that others might overlook. Your work is the bedrock upon which complex decisions and analyses are built, making you an indispensable cornerstone of any knowledge-driven team.",
+            role='Idea Generator',
+            goal='Generate creative, engaging content ideas aligned with audience needs and market trends.',
+            backstory="A highly creative thinker with experience in content marketing, journalism, and product development. You are attuned to audience needs, market demands, and industry trends, making you a rapid source of new content ideas.",
             verbose=True,
             allow_delegation=False,
-            tools=[self.web],
+            tools=[self.web, self.serper],
             llm=self.gpt3,
         )
 
-    def analyst(self):
-        # Detailed agent setup for the Analyst
+    def skeptical_taxpayer_critic(self):
+        # Agent setup for Critiquing from the Wary Taxpayer perspective
         return Agent(
-            role='Data Analysis Specialist',
-            goal='Evaluate and enhance the information collected to ensure accuracy and relevance.',
-            backstory="With a formidable background in data science and a sharp, inquisitive mind, you stand out as a master of data interrogation and synthesis. Your career spans over fifteen years, involving roles in government intelligence and corporate strategy, where you've turned ambiguous data into clear, actionable insights. Your analytical reports are often cited as the gold standard in your field, and your capacity to dissect complex datasets is nothing short of legendary.",
-            tools=[self.serper],
-            verbose=True,
-            allow_delegation=False,
-            llm=self.gpt3,
-        )
-
-    def writer(self):
-        # Detailed agent setup for the Writer
-        return Agent(
-            role='Master Storyteller and Technical Writer',
-            goal='Integrate and articulate insights into a compelling narrative with precise citations.',
-            backstory="As a celebrated author and journalist with over twenty years of experience crafting stories that captivate and inform, you possess a unique flair for making intricate information accessible and engaging. Your writing has graced the pages of major publications and influential blogs, where your ability to elucidate complex concepts in an engaging manner has won you numerous accolades. In this role, you are the final architect, molding the raw analytical content into a final piece that is not only informative but also profoundly impactful.",
+            role='Skeptical Taxpayer Critic',
+            goal='Ensure content ideas address skepticism and build trust for wary audiences.',
+            backstory="Representing cautious customers who have been burned in the past, you are focused on scrutinizing content to build trust and reassure users.",
             tools=[self.txt_tool],
             verbose=True,
             allow_delegation=False,
             llm=self.gpt3,
+        )
+
+    def urgency_seeker_critic(self):
+        # Agent setup for Critiquing from the Urgency Seeker perspective
+        return Agent(
+            role='Urgency Seeker Critic',
+            goal='Critique content ideas to ensure they convey urgency and drive immediate action.',
+            backstory="You represent customers under pressure who need quick, actionable solutions. Your focus is on content that emphasizes timely responses and encourages fast action.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt3,
+        )
+
+    def overwhelmed_debtor_critic(self):
+        # Agent setup for Critiquing from the Overwhelmed Debtor perspective
+        return Agent(
+            role='Overwhelmed Debtor Critic',
+            goal='Ensure content is supportive and offers simple, actionable guidance for overwhelmed readers.',
+            backstory="As an advocate for customers burdened by debt, your focus is on simplifying content, making it approachable, and providing step-by-step guidance to ease their journey.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt3,
+        )
+
+    def long_term_planner_critic(self):
+        # Agent setup for Critiquing from the Long-Term Planner perspective
+        return Agent(
+            role='Long-Term Planner Critic',
+            goal='Critique content to ensure it speaks to sustainable, future-focused strategies.',
+            backstory="You are the voice for readers looking for stability and long-term solutions. You evaluate content ideas to ensure they offer strategies that align with future planning and resilience.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt3,
+        )
+
+    def budget_conscious_critic(self):
+        # Agent setup for Critiquing from the Budget-Conscious Saver perspective
+        return Agent(
+            role='Budget-Conscious Saver Critic',
+            goal='Ensure content appeals to cost-sensitive audiences, emphasizing affordability.',
+            backstory="Representing readers focused on cost-effectiveness, you critique content to highlight budget-friendly approaches and savings.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt3,
+        )
+
+    def content_strategist(self):
+        # Agent setup for the Content Strategist role
+        return Agent(
+            role='Content Strategist',
+            goal='Develop detailed content outlines with hooks and tailored messaging for specific audience segments.',
+            backstory="With a strategic mindset and a deep understanding of the tax debt niche, you ensure that every piece of content is aligned with business goals and tailored to audience segments.",
+            tools=[self.serper],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
+        )
+
+    def wary_taxpayer_writer(self):
+        # Agent setup for the Wary Taxpayer Content Writer
+        return Agent(
+            role='Wary Taxpayer Writer',
+            goal='Write content with a cautious, trust-building approach to resonate with skeptical readers.',
+            backstory="You craft narratives that build trust and transparency, reassuring readers who may have previous negative experiences.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
+        )
+
+    def urgency_driven_writer(self):
+        # Agent setup for the Urgency-Driven Content Writer
+        return Agent(
+            role='Urgency-Driven Writer',
+            goal='Write content that emphasizes fast, urgent solutions to drive immediate action.',
+            backstory="A specialist in creating urgency, you write content that motivates readers to take swift action in response to pressing needs.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
+        )
+
+    def overwhelmed_debtor_writer(self):
+        # Agent setup for the Overwhelmed Debtor Content Writer
+        return Agent(
+            role='Overwhelmed Debtor Writer',
+            goal='Write supportive, step-by-step content for readers feeling swamped by debt.',
+            backstory="You provide calm, supportive guidance, creating content that feels manageable and reduces anxiety for overwhelmed readers.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
+        )
+
+    def long_term_planner_writer(self):
+        # Agent setup for the Long-Term Planner Content Writer
+        return Agent(
+            role='Long-Term Planner Writer',
+            goal='Write content with a focus on sustainable, long-term financial strategies.',
+            backstory="With a focus on future planning, you create content that offers strategic, resilient solutions for readers interested in sustainable debt resolution.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
+        )
+
+    def budget_saver_writer(self):
+        # Agent setup for the Budget Saver Content Writer
+        return Agent(
+            role='Budget Saver Writer',
+            goal='Write content emphasizing affordable solutions and cost savings.',
+            backstory="Focused on cost-effectiveness, you craft content that highlights budget-friendly options and emphasizes savings for cost-conscious readers.",
+            tools=[self.txt_tool],
+            verbose=True,
+            allow_delegation=False,
+            llm=self.gpt4,
         )
